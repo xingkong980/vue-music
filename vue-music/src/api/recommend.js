@@ -3,6 +3,15 @@ import {
   commonParams
 } from './config'
 
+export  function  testProxy() {
+  const url = 'http://baidu.com'
+    axios.get(url,{
+      test: 3030
+    }).then(res=>{
+      console.log(res)
+    });
+}
+
 export function getTopBanner() {
   //确定URL
   const url = '/api/getTopBanner'

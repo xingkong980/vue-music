@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getTopBanner } from "@/api/recommend";
+import { getTopBanner,testProxy } from "@/api/recommend";
 export default {
   data() {
     return {};
@@ -16,8 +16,7 @@ export default {
   methods: {
     _getTopBanner() {
       console.log("进入方法");
-      const e = getTopBanner();
-      console.log(e);
+      const e = testProxy();
     }
   }
 };
