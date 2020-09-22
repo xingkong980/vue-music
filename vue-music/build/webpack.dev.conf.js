@@ -10,7 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 const axios = require('axios')
-const express = require('express')
+const bodyParser = require('body-parser')
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -94,9 +94,37 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         })
       })
 
-      app.post('/api/getPurlUrl',function (req,res) {
-
+      app.get('/api/getMyOwnUrl', function (req, res) {
+        const url = 'https://u.y.qq.com/cgi-bin/musics.fcg'
+        axios.get(url,{
+          headers: {
+            referer: 'https://y.qq.com/portal/player.html',
+            origin: 'https://y.qq.com',
+            'content-type': 'text/plain; charset=utf-8'
+          },
+          params: req.query
+        }).then((response)=>{
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e)
+        })
       })
+
+      app.post('/api/getPurlUrl', bodyParser.json(), function (req, res) {
+        const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        axios.post(url, req.body, {
+          headers: {
+            referer: 'https://y.qq.com/',
+            origin: 'https://y.qq.com',
+            'Content-type': 'application/x-www-form-urlencoded'
+          }
+        }).then((response) => {
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+      })
+
     },
     clientLogLevel: 'warning',
     historyApiFallback: {
